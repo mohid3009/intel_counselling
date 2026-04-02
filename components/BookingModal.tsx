@@ -1,7 +1,6 @@
 
 import React, { useState, useEffect } from 'react';
-import { X, CheckCircle2, ChevronRight, ArrowLeft, Calendar, Clock, Video, ShieldCheck, HelpCircle, MessageSquare, AlertCircle } from 'lucide-react';
-import emailjs from '@emailjs/browser';
+import { X, CheckCircle2, ChevronRight, ArrowLeft, Calendar, Clock, Video, ShieldCheck, HelpCircle, MessageSquare, AlertCircle, MapPin, Monitor } from 'lucide-react';
 
 const SERVICES = [
   { id: 'anxiety', name: 'Anxiety & Stress', price: 1 },
@@ -135,6 +134,7 @@ const BookingModal: React.FC<BookingModalProps> = ({ onClose }) => {
     name: '',
     email: '',
     serviceId: '',
+    sessionMode: '' as 'online' | 'inperson' | '',
     date: '',
     time: '',
     acceptedDisclaimer: false
@@ -143,9 +143,31 @@ const BookingModal: React.FC<BookingModalProps> = ({ onClose }) => {
   const selectedService = SERVICES.find(s => s.id === details.serviceId);
   const availableSlots = details.date ? getAvailableSlots(details.date) : [];
 
-  const handleBookingSuccess = (link: string) => {
+  const handleBookingSuccess = async (link: string) => {
     setMeetLink(link);
     setStep(4);
+
+    const isOnline = details.sessionMode === 'online';
+
+    try {
+      await fetch('/api/send-booking-email', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          toName: details.name,
+          customerEmail: details.email,
+          serviceName: selectedService?.name,
+          appointmentDate: details.date,
+          appointmentTime: details.time,
+          sessionMode: isOnline ? 'Online (Virtual)' : 'In-Person',
+          meetLink: isOnline ? link : null,
+          rescheduleInfo: 'If you need to change your timing, please reply to this email to reschedule at least 24 hours in advance.',
+        }),
+      });
+      console.log("Confirmation emails sent via Brevo.");
+    } catch (error) {
+      console.error("Failed to send confirmation emails:", error);
+    }
   };
 
   const steps = ["Session Type", "Details", "Payment", "Success"];
@@ -199,6 +221,40 @@ const BookingModal: React.FC<BookingModalProps> = ({ onClose }) => {
               </div>
 
               {details.serviceId && (
+                <div className="space-y-2 animate-in fade-in slide-in-from-bottom-2 duration-300">
+                  <label className="text-[10px] font-bold opacity-60 uppercase tracking-wider text-intel-dark">Session Format</label>
+                  <div className="grid grid-cols-2 gap-3">
+                    <button
+                      type="button"
+                      onClick={() => setDetails({...details, sessionMode: 'online'})}
+                      className={`flex flex-col items-center gap-3 p-5 rounded-2xl border-2 transition-all font-bold text-sm ${
+                        details.sessionMode === 'online'
+                          ? 'border-serene-green bg-serene-green/10 text-serene-green'
+                          : 'border-black/10 bg-white text-intel-dark hover:border-serene-green/40'
+                      }`}
+                    >
+                      <Monitor size={24} />
+                      Online
+                      <span className="text-[10px] font-normal opacity-60">Via Google Meet</span>
+                    </button>
+                    <button
+                      type="button"
+                      onClick={() => setDetails({...details, sessionMode: 'inperson'})}
+                      className={`flex flex-col items-center gap-3 p-5 rounded-2xl border-2 transition-all font-bold text-sm ${
+                        details.sessionMode === 'inperson'
+                          ? 'border-serene-green bg-serene-green/10 text-serene-green'
+                          : 'border-black/10 bg-white text-intel-dark hover:border-serene-green/40'
+                      }`}
+                    >
+                      <MapPin size={24} />
+                      In-Person
+                      <span className="text-[10px] font-normal opacity-60">At our clinic</span>
+                    </button>
+                  </div>
+                </div>
+              )}
+
+              {details.serviceId && details.sessionMode && (
                 <button 
                   onClick={() => setStep(2)}
                   className="w-full bg-intel-dark text-[#F4EFE6] py-5 rounded-2xl font-bold shadow-xl hover:shadow-2xl transition-all active:scale-[0.98] flex items-center justify-center gap-3 animate-in fade-in slide-in-from-bottom-4"
@@ -260,7 +316,7 @@ const BookingModal: React.FC<BookingModalProps> = ({ onClose }) => {
         {step === 3 && (
           <CashfreePaymentStep 
             bookingDetails={{ ...details, service: selectedService }} 
-            onSuccess={handleBookingSuccess} 
+            onSuccess={(link) => handleBookingSuccess(details.sessionMode === 'online' ? link : '')} 
             onBack={() => setStep(2)} 
           />
         )}
@@ -271,14 +327,23 @@ const BookingModal: React.FC<BookingModalProps> = ({ onClose }) => {
               <CheckCircle2 size={48} />
             </div>
             <h3 className="text-4xl font-bold mb-4 serif text-intel-dark">Booking Confirmed!</h3>
-            <p className="text-black/60 mb-10 max-w-sm mx-auto font-light leading-relaxed">Your session is secured. Check your email for details and the meeting link.</p>
+            <p className="text-black/60 mb-10 max-w-sm mx-auto font-light leading-relaxed">Your session is secured. Check your email for details{details.sessionMode === 'online' ? ' and the meeting link' : ''}.</p>
             <div className="bg-white p-6 rounded-3xl border border-black/5 mb-10 text-left flex items-start gap-4 shadow-sm">
               <div className="bg-terracotta/10 p-4 rounded-full text-terracotta">
-                <Video size={24} />
+                {details.sessionMode === 'online' ? <Video size={24} /> : <MapPin size={24} />}
               </div>
               <div className="overflow-hidden">
-                <h5 className="font-bold text-intel-dark">Virtual Session Link</h5>
-                <p className="text-serene-green text-sm truncate font-medium">{meetLink}</p>
+                {details.sessionMode === 'online' ? (
+                  <>
+                    <h5 className="font-bold text-intel-dark">Virtual Session Link</h5>
+                    <p className="text-serene-green text-sm truncate font-medium">{meetLink}</p>
+                  </>
+                ) : (
+                  <>
+                    <h5 className="font-bold text-intel-dark">In-Person Session</h5>
+                    <p className="text-black/60 text-sm font-medium">Our team will send you the clinic address via email.</p>
+                  </>
+                )}
               </div>
             </div>
             <button onClick={onClose} className="w-full bg-intel-dark text-white py-5 rounded-2xl font-bold shadow-xl active:scale-95 transition-all">Go Back</button>

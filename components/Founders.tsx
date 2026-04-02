@@ -26,7 +26,7 @@ const Founders: React.FC<FoundersProps> = ({ onExpandChange }) => {
       name: "Priyanka R.",
       title: "COUNSELING PSYCHOLOGIST & SENIOR STUDENT COUNSELOR",
       desc: "Founder of Intell Counselling with 5+ years of experience, Priyanka supports students with a calm presence.",
-      img: "https://intelcounselling.com/wp-content/uploads/2026/01/priyan-1.png",
+      img: "/assets/imgs/pfp_priyanka.png",
       detailedBio: "With over 5 years of dedicated clinical experience, Priyanka R. is the founder of Intell Counselling. She currently serves as a Senior Student Counselor at Rajalakshmi Engineering College. Her calm presence and deep listening make people feel safe, seen, and supported, allowing for genuine emotional breakthroughs.",
       specialties: ["Anxiety", "Depression", "Academic Stress", "Addiction"],
       philosophy: "To help people feel lighter, think clearer, and live fuller.",

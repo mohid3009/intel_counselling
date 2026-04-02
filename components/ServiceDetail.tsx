@@ -2,7 +2,6 @@
 import React, { useEffect } from 'react';
 import { ArrowLeft, CheckCircle, User, GraduationCap, Briefcase, Calendar, ShieldCheck, Heart, Brain, Zap, Monitor, Users, Sparkles } from 'lucide-react';
 import { ViewType } from '../App';
-import personalHero from '../assets/imgs/image.png';
 
 interface Specialization {
   category: string;
@@ -26,7 +25,7 @@ const ServiceDetail: React.FC<ServiceDetailProps> = ({ view, onBack, onBook }) =
       title: "Personal Therapy",
       tagline: "Individual Healing & Discovery",
       icon: <User size={40} />,
-      hero: personalHero,
+      hero: "/assets/imgs/image.png",
       isCompact: true, 
       intro: "Our individual sessions are a sanctuary for your mind. We combine modern clinical techniques with deep compassion to help you unravel complex emotions and build a foundation of lasting peace.",
       specializations: [
