@@ -37,13 +37,13 @@ const Founders: React.FC<FoundersProps> = ({ onExpandChange }) => {
       ]
     },
     {
-      name: "Dr. K. Senthilkumar",
-      title: "CO-FOUNDER & CHIEF STRATEGY OFFICER",
-      desc: "Dr. K. Senthilkumar drives the strategic vision and operational excellence of Intell Counselling.",
-      img: "https://intelcounselling.com/wp-content/uploads/2026/01/my-photo.png",
-      detailedBio: "As Co-Founder, Dr. K. Senthilkumar drives the strategic vision and operational excellence of Intell Counselling. He oversees the organization’s digital infrastructure and marketing outreach. His role ensures that professional mental healthcare remains accessible and secure.",
-      specialties: ["Digital Strategy", "Operations", "Strategic Growth"],
-      philosophy: "To ensure professional mental healthcare remains accessible and client-focused for everyone.",
+      name: "Dr. Gayathri Gokulakrishnan",
+      title: "CO-FOUNDER & OPERATIONS MANAGER",
+      desc: "Dr. Gayathri Gokulakrishnan drives the strategic vision and operational excellence of Intell Counselling.",
+      img: "/assets/imgs/pfp_gayathri.png",
+      detailedBio: "As Co-Founder, Dr. Gayathri Gokulakrishnan drives the strategic vision and operational excellence of Intell Counselling. She oversees the organization’s digital infrastructure and marketing outreach. Her role ensures that professional mental healthcare remains accessible and secure.",
+      specialties: ["Oversees daily operations", "Managing administrative processes", "Strategic growth"],
+      philosophy: "Her structured approach and commitment to efficiency help maintain a supportive, well-organized environment that enables the center to deliver quality counselling services.",
       socials: [
         { icon: <Linkedin size={16} />, label: "LinkedIn" },
         { icon: <Twitter size={16} />, label: "Twitter" },
@@ -74,30 +74,28 @@ const Founders: React.FC<FoundersProps> = ({ onExpandChange }) => {
       <div className="grid grid-cols-2 gap-2 sm:gap-6 md:gap-10 items-start">
         {founders.map((f, idx) => {
           const isExpanded = expandedIdx === idx;
-          
+
           return (
             <FadeIn key={idx} delay={idx * 300}>
-              <div 
+              <div
                 onClick={() => toggleExpand(idx)}
-                className={`bg-[#2A2825] rounded-2xl sm:rounded-[40px] md:rounded-[48px] p-3 sm:p-6 md:p-10 shadow-2xl border border-white/5 hover:border-white/10 transition-all duration-700 group relative overflow-hidden flex flex-col cursor-pointer ${
-                  isExpanded ? 'ring-4 ring-terracotta/20 scale-[1.01] md:scale-105 z-50' : 'z-10'
-                }`}
+                className={`bg-[#2A2825] rounded-2xl sm:rounded-[40px] md:rounded-[48px] p-3 sm:p-6 md:p-10 shadow-2xl border border-white/5 hover:border-white/10 transition-all duration-700 group relative overflow-hidden flex flex-col cursor-pointer ${isExpanded ? 'ring-4 ring-terracotta/20 scale-[1.01] md:scale-105 z-50' : 'z-10'
+                  }`}
               >
                 {/* Decorative Accent */}
                 <div className={`absolute top-0 right-0 w-24 h-24 md:w-32 md:h-32 bg-white/5 rounded-bl-[60px] md:rounded-bl-[100px] -mr-8 -mt-8 md:-mr-10 md:-mt-10 transition-all duration-1000 ${isExpanded ? 'opacity-0 scale-150' : 'opacity-100 group-hover:scale-110'}`}></div>
-                
+
                 <div className={`flex transition-all duration-700 ease-in-out gap-3 sm:gap-8 mb-4 md:mb-8 ${isExpanded ? 'flex-col items-center text-center' : 'flex-row items-center'}`}>
                   {/* Image Container */}
-                  <div className={`shrink-0 overflow-hidden rounded-xl sm:rounded-[30px] md:rounded-[40px] transition-all duration-700 shadow-2xl border-2 border-white/5 ${
-                    isExpanded ? 'w-24 h-24 sm:w-48 sm:h-48 md:w-64 md:h-64 mb-2 md:mb-6' : 'w-12 h-12 sm:w-24 sm:h-24 md:w-32 md:h-32'
-                  }`}>
-                    <img 
-                      src={f.img} 
-                      alt={f.name} 
-                      className="w-full h-full object-cover transform group-hover:scale-105 transition-transform duration-1000 grayscale group-hover:grayscale-0" 
+                  <div className={`shrink-0 overflow-hidden rounded-xl sm:rounded-[30px] md:rounded-[40px] transition-all duration-700 shadow-2xl border-2 border-white/5 ${isExpanded ? 'w-24 h-24 sm:w-48 sm:h-48 md:w-64 md:h-64 mb-2 md:mb-6' : 'w-12 h-12 sm:w-24 sm:h-24 md:w-32 md:h-32'
+                    }`}>
+                    <img
+                      src={f.img}
+                      alt={f.name}
+                      className="w-full h-full object-cover transform group-hover:scale-105 transition-transform duration-1000 grayscale group-hover:grayscale-0"
                     />
                   </div>
-                  
+
                   {/* Text Header */}
                   <div className={`transition-all duration-500 overflow-hidden ${isExpanded ? 'mt-0' : ''}`}>
                     <h3 className={`font-black text-white serif leading-tight transition-all duration-700 truncate ${isExpanded ? 'text-lg sm:text-3xl md:text-4xl' : 'text-sm sm:text-2xl md:text-3xl'}`}>
@@ -113,7 +111,7 @@ const Founders: React.FC<FoundersProps> = ({ onExpandChange }) => {
                   <p className={`text-white/60 leading-snug md:leading-relaxed text-[9px] sm:text-sm md:text-base font-light transition-all duration-500 ${isExpanded ? 'text-center max-w-lg mx-auto mb-4 md:mb-8 text-[11px] sm:text-lg' : 'mb-3 md:mb-6 line-clamp-2 md:line-clamp-3'}`}>
                     {isExpanded ? f.detailedBio : f.desc}
                   </p>
-                  
+
                   {/* Expandable Section */}
                   <div className={`overflow-hidden transition-all duration-1000 ease-in-out ${isExpanded ? 'max-h-[1200px] opacity-100' : 'max-h-0 opacity-0'}`}>
                     <div className="space-y-4 md:space-y-10 pt-4 md:pt-8 border-t border-white/10 animate-fade-in">
@@ -149,7 +147,7 @@ const Founders: React.FC<FoundersProps> = ({ onExpandChange }) => {
                 <div className={`flex items-center justify-between transition-all duration-700 ${isExpanded ? 'mt-4 sm:mt-8 pt-4 sm:pt-8 border-t border-white/10' : 'mt-2 sm:mt-4 pt-3 sm:pt-6'}`}>
                   <div className="flex items-center gap-1 sm:gap-3">
                     {f.socials.map((social, sIdx) => (
-                      <button 
+                      <button
                         key={sIdx}
                         onClick={(e) => e.stopPropagation()}
                         aria-label={social.label}
