@@ -50,7 +50,7 @@ const TestOptions: React.FC<TestOptionsProps> = ({ onBack, onSelectTest }) => {
   ];
 
   return (
-    <div className="relative min-h-screen pt-32 pb-24 px-6">
+    <div className="relative min-h-screen pt-24 pb-12 md:pt-32 md:pb-24 px-6">
       <div className="max-w-6xl mx-auto">
         <button 
           onClick={onBack}
@@ -110,7 +110,7 @@ const TestOptions: React.FC<TestOptionsProps> = ({ onBack, onSelectTest }) => {
           ))}
         </div>
 
-        <div className="mt-24 p-8 md:p-16 bg-intel-dark rounded-[50px] md:rounded-[80px] text-white text-center relative overflow-hidden shadow-2xl">
+        <div className="mt-16 md:mt-24 p-8 md:p-16 bg-intel-dark rounded-[50px] md:rounded-[80px] text-white text-center relative overflow-hidden shadow-2xl">
            <div className="absolute top-0 right-0 w-64 h-64 bg-white/5 rounded-bl-[120px] -mr-32 -mt-32 opacity-40"></div>
            <div className="relative z-10">
              <h3 className="text-2xl md:text-4xl font-black serif mb-6">Need immediate support?</h3>

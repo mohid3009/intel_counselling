@@ -154,7 +154,7 @@ const Assessment: React.FC<AssessmentProps> = ({ type = 'phq9', onClose }) => {
               </div>
             </>
           ) : loading ? (
-            <div className="py-16 md:py-20 flex flex-col items-center text-center">
+            <div className="py-8 md:py-20 flex flex-col items-center text-center">
               <Loader2 size={48} className="animate-spin text-terracotta mb-6" />
               <h3 className="text-xl md:text-2xl font-bold mb-2 serif">Analyzing...</h3>
               <p className="text-black/60 italic text-sm">Generating an empathetic summary just for you.</p>

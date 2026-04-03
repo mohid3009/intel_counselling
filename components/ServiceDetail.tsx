@@ -95,11 +95,11 @@ const ServiceDetail: React.FC<ServiceDetailProps> = ({ view, onBack, onBook }) =
   if (!content) return null;
 
   return (
-    <div className="relative min-h-screen bg-transparent pt-32 pb-24 px-6 overflow-hidden">
+    <div className="relative min-h-screen bg-transparent pt-24 pb-12 md:pt-32 md:pb-24 px-6 overflow-hidden">
       <div className="max-w-6xl mx-auto relative z-10">
         <button 
           onClick={onBack}
-          className="group flex items-center gap-2 md:gap-3 bg-white/80 backdrop-blur-sm rounded-[2rem] pr-6 pl-2 py-2 md:py-3 shadow-md border border-black/5 text-intel-dark/80 hover:text-intel-dark font-black hover:bg-white hover:shadow-lg hover:-translate-y-0.5 transition-all duration-300 mb-12 uppercase tracking-[0.25em] text-[9px] md:text-[10px]"
+          className="group flex items-center gap-2 md:gap-3 bg-white/80 backdrop-blur-sm rounded-[2rem] pr-6 pl-2 py-2 md:py-3 shadow-md border border-black/5 text-intel-dark/80 hover:text-intel-dark font-black hover:bg-white hover:shadow-lg hover:-translate-y-0.5 transition-all duration-300 mb-8 md:mb-12 uppercase tracking-[0.25em] text-[9px] md:text-[10px]"
         >
           <div className="w-8 h-8 md:w-10 md:h-10 rounded-full bg-intel-dark/5 flex items-center justify-center group-hover:bg-terracotta group-hover:text-white transition-colors duration-300">
             <ArrowLeft size={16} />
@@ -107,7 +107,7 @@ const ServiceDetail: React.FC<ServiceDetailProps> = ({ view, onBack, onBook }) =
           Back to Overview
         </button>
 
-        <div className={`relative rounded-[40px] md:rounded-[60px] overflow-hidden mb-16 shadow-[0_40px_80px_-20px_rgba(0,0,0,0.15)] ${content.isCompact ? 'h-[250px] md:h-[350px]' : 'h-[450px] md:h-[600px]'} transition-all duration-700 group/hero`}>
+        <div className={`relative rounded-[40px] md:rounded-[60px] overflow-hidden mb-10 md:mb-16 shadow-[0_40px_80px_-20px_rgba(0,0,0,0.15)] ${content.isCompact ? 'h-[250px] md:h-[350px]' : 'h-[450px] md:h-[600px]'} transition-all duration-700 group/hero`}>
           <img 
             src={content.hero} 
             alt={content.title} 

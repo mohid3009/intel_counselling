@@ -120,7 +120,7 @@ const Services: React.FC<ServicesProps> = ({ onSelectService }) => {
     <div className="w-full bg-transparent px-2 sm:px-6 relative">
       <div className="max-w-6xl w-full mx-auto relative z-10">
         <FadeIn>
-          <div className="text-center mb-12 md:mb-24 px-4">
+          <div className="text-center mb-8 md:mb-24 px-4">
             <div className="inline-flex items-center gap-2 px-4 py-1.5 md:px-5 md:py-2.5 rounded-full bg-intel-dark border border-white/10 text-white text-[8px] md:text-[10px] font-bold uppercase tracking-[0.3em] mb-4 md:mb-8 shadow-xl">
               <Sparkles size={isMobile ? 12 : 14} className="animate-pulse" />
               Our Clinical Pathways

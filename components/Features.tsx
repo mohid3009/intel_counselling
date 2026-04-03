@@ -57,7 +57,7 @@ const Features: React.FC = () => {
         />
 
         <FadeIn delay={800}>
-          <p className="text-white/50 max-w-2xl mx-auto text-sm md:text-xl mb-12 md:mb-24 leading-relaxed font-light text-center px-4">
+          <p className="text-white/50 max-w-2xl mx-auto text-sm md:text-xl mb-8 md:mb-24 leading-relaxed font-light text-center px-4">
             We bridge the gap between clinical excellence and compassionate understanding.
           </p>
         </FadeIn>

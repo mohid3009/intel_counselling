@@ -124,7 +124,7 @@ const ApproachLayer: React.FC<{
     <section 
       ref={sectionRef}
       id={id} 
-      className="relative z-10 bg-[#1F1E1B] py-24 md:py-32 scroll-mt-20 overflow-hidden"
+      className="relative z-10 bg-[#1F1E1B] py-16 md:py-32 scroll-mt-20 overflow-hidden"
       style={{ 
         zIndex,
         filter: `blur(${blurValue}px)`,
@@ -297,7 +297,7 @@ const App: React.FC = () => {
           <Features />
         </ApproachLayer>
 
-        <section id="services" className="relative z-[15] bg-[#F7EBD3] py-24 md:py-32 scroll-mt-20">
+        <section id="services" className="relative z-[15] bg-[#F7EBD3] py-16 md:py-32 scroll-mt-20">
           <Services onSelectService={(view) => setCurrentView(view)} />
         </section>
 
@@ -312,7 +312,7 @@ const App: React.FC = () => {
         </Layer>
 
         {/* Inquiry Section with Multi-font / Multi-color quote */}
-        <section id="inquiry" className="relative z-30 bg-[#1F1E1B] shadow-[0_-20px_50px_rgba(0,0,0,0.3)] min-h-screen flex items-center justify-center py-24 scroll-mt-20">
+        <section id="inquiry" className="relative z-30 bg-[#1F1E1B] shadow-[0_-20px_50px_rgba(0,0,0,0.3)] min-h-screen flex items-center justify-center py-16 md:py-32 scroll-mt-20">
            <div className="w-full">
              <div className="max-w-4xl mx-auto px-6">
                <ReadingQuote />

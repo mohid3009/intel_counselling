@@ -183,7 +183,7 @@ const Hero: React.FC<HeroProps> = ({ onStartTest, onLearnMore }) => {
         ></div>
       </div>
 
-      <div className="relative z-10 w-full max-w-5xl mx-auto px-6 pt-24 pb-24 md:pt-32 md:pb-40 lg:pt-40 lg:pb-52 flex flex-col lg:flex-row items-center justify-between gap-16 lg:gap-28 text-center lg:text-left">
+      <div className="relative z-10 w-full max-w-5xl mx-auto px-6 pt-24 pb-8 md:pt-32 md:pb-40 lg:pt-40 lg:pb-52 flex flex-col lg:flex-row items-center justify-between gap-16 lg:gap-28 text-center lg:text-left">
         
         <div 
           className="flex-1 lg:flex-[1.2] w-full max-w-xl lg:max-w-2xl transition-transform duration-1000 ease-[cubic-bezier(0.16, 1, 0.3, 1)]" 
