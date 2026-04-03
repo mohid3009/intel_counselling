@@ -245,14 +245,18 @@ const App: React.FC = () => {
         {currentView === 'tests' ? (
           <TestOptions onBack={() => setCurrentView('home')} onSelectTest={(type) => setShowAssessment({ isOpen: true, type })} />
         ) : currentView === 'booking' ? (
-          <div className="pt-24 pb-12 flex items-center justify-center">
+          <div className="pt-28 pb-12 px-4 md:px-6 flex items-center justify-center min-h-[80vh]">
              <BookingModal onClose={() => setCurrentView('personal')} />
           </div>
         ) : (
           <ServiceDetail view={currentView} onBack={() => setCurrentView('home')} onBook={() => setCurrentView('booking')} />
         )}
 
-        {isBookingOpen && <BookingModal onClose={() => setIsBookingOpen(false)} />}
+        {isBookingOpen && (
+          <div className="fixed inset-0 z-[100] flex items-center justify-center p-4 bg-black/60 backdrop-blur-sm overflow-y-auto">
+            <BookingModal onClose={() => setIsBookingOpen(false)} />
+          </div>
+        )}
         {showAssessment.isOpen && <Assessment type={showAssessment.type} onClose={() => setShowAssessment({ isOpen: false, type: 'general' })} />}
         <Footer />
       </div>
@@ -325,7 +329,11 @@ const App: React.FC = () => {
         </section>
       </main>
 
-      {isBookingOpen && <BookingModal onClose={() => setIsBookingOpen(false)} />}
+      {isBookingOpen && (
+        <div className="fixed inset-0 z-[100] flex items-center justify-center p-4 bg-black/60 backdrop-blur-sm overflow-y-auto">
+          <BookingModal onClose={() => setIsBookingOpen(false)} />
+        </div>
+      )}
     </div>
   );
 };

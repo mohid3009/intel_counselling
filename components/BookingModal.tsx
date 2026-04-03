@@ -208,8 +208,8 @@ const BookingModal: React.FC<BookingModalProps> = ({ onClose }) => {
   const steps = ["Session Type", "Details", "Payment", "Success"];
 
   return (
-    <div className="w-full max-w-2xl bg-main rounded-[40px] shadow-2xl overflow-hidden border border-white/20 animate-in fade-in slide-in-from-bottom-8 duration-500">
-      <div className="p-8 md:p-12">
+    <div className="w-full max-w-2xl bg-main rounded-3xl md:rounded-[40px] shadow-2xl overflow-hidden border border-white/20 animate-in fade-in slide-in-from-bottom-8 duration-500 max-h-[90vh] flex flex-col">
+      <div className="p-6 md:p-12 overflow-y-auto overflow-x-hidden flex-1">
         
         {/* Progress Bar */}
         {step < 4 && (
