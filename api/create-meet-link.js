@@ -86,7 +86,7 @@ export default async function handler(req, res) {
     };
 
     const response = await calendar.events.insert({
-      calendarId: 'primary', // This creates the event on the Service Account's primary calendar
+      calendarId: process.env.GOOGLE_CALENDAR_ID || 'primary', // Must be the email of the shared calendar
       conferenceDataVersion: 1,
       requestBody: event,
     });
