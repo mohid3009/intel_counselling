@@ -34,20 +34,13 @@ export default async function handler(req, res) {
       return res.status(500).json({ error: 'Google Calendar credentials are not configured.' });
     }
 
-    const auth = new google.auth.JWT(
-      credentials.client_email,
-      null,
-      credentials.private_key,
-      ['https://www.googleapis.com/auth/calendar']
-    );
-
-    // Explicitly authorize to catch auth errors before the calendar call
-    try {
-      await auth.authorize();
-    } catch (authErr) {
-      console.error('Google Auth Error:', authErr);
-      return res.status(500).json({ error: 'Failed to authenticate with Google', details: authErr.message });
-    }
+    const auth = new google.auth.GoogleAuth({
+      credentials: {
+        client_email: credentials.client_email,
+        private_key: credentials.private_key,
+      },
+      scopes: ['https://www.googleapis.com/auth/calendar'],
+    });
 
     const calendar = google.calendar({ version: 'v3', auth });
 
