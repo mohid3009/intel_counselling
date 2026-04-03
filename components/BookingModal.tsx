@@ -87,10 +87,38 @@ const CashfreePaymentStep: React.FC<{
             console.log("Payment will be redirected");
         } else if(result.paymentDetails) {
             // Once the payment succeeds in the modal!
-            const gmeetId = Math.random().toString(36).substring(2, 12);
-            const gmeetLink = `https://meet.google.com/mock-${gmeetId}`;
-            setIsProcessing(false);
-            onSuccess(gmeetLink);
+            if (bookingDetails.sessionMode === 'online') {
+              fetch('/api/create-meet-link', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({
+                  summary: `Session with ${bookingDetails.name} - ${bookingDetails.service.name}`,
+                  description: `Email: ${bookingDetails.email}`,
+                  date: bookingDetails.date,
+                  time: bookingDetails.time
+                })
+              })
+              .then(res => res.json())
+              .then(data => {
+                if (data.meetLink) {
+                  setIsProcessing(false);
+                  onSuccess(data.meetLink);
+                } else {
+                  console.error('Failed to create Meet link:', data);
+                  const fallbackLink = `https://meet.google.com/fallback-link`;
+                  setIsProcessing(false);
+                  onSuccess(fallbackLink);
+                }
+              })
+              .catch(err => {
+                console.error(err);
+                setIsProcessing(false);
+                onSuccess(`https://meet.google.com/fallback-link`);
+              });
+            } else {
+              setIsProcessing(false);
+              onSuccess('');
+            }
         }
       });
     } catch (err: any) {
