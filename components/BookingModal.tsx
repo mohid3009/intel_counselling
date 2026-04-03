@@ -98,20 +98,27 @@ const CashfreePaymentStep: React.FC<{
                   time: bookingDetails.time
                 })
               })
-              .then(res => res.json())
+              .then(async res => {
+                if (!res.ok) {
+                  const errText = await res.text();
+                  console.error('Meet API Error:', errText);
+                  throw new Error(`Meet API Error: ${errText}`);
+                }
+                return res.json();
+              })
               .then(data => {
                 if (data.meetLink) {
                   setIsProcessing(false);
                   onSuccess(data.meetLink);
                 } else {
-                  console.error('Failed to create Meet link:', data);
+                  console.error('Failed to create Meet link, response was:', data);
                   const fallbackLink = `https://meet.google.com/fallback-link`;
                   setIsProcessing(false);
                   onSuccess(fallbackLink);
                 }
               })
               .catch(err => {
-                console.error(err);
+                console.error("Fetch Meet Link Catch:", err);
                 setIsProcessing(false);
                 onSuccess(`https://meet.google.com/fallback-link`);
               });
