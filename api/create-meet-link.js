@@ -21,10 +21,13 @@ export default async function handler(req, res) {
   try {
     const { summary, description, date, time } = req.body;
 
+    // Need to handle both explicit \n strings and actual newlines, and strip surrounding quotes if copied locally
+    let rawKey = process.env.GOOGLE_PRIVATE_KEY || '';
+    rawKey = rawKey.replace(/^"|"$/g, '').replace(/\\n/g, '\n');
+
     const credentials = {
-      client_email: process.env.GOOGLE_CLIENT_EMAIL,
-      // Need to replace escaped newlines with actual newlines if coming from Vercel env
-      private_key: process.env.GOOGLE_PRIVATE_KEY?.replace(/\\n/g, '\n'),
+      client_email: process.env.GOOGLE_CLIENT_EMAIL?.replace(/^"|"$/g, ''),
+      private_key: rawKey,
     };
 
     if (!credentials.client_email || !credentials.private_key) {
@@ -35,8 +38,16 @@ export default async function handler(req, res) {
       credentials.client_email,
       null,
       credentials.private_key,
-      ['https://www.googleapis.com/auth/calendar.events']
+      ['https://www.googleapis.com/auth/calendar']
     );
+
+    // Explicitly authorize to catch auth errors before the calendar call
+    try {
+      await auth.authorize();
+    } catch (authErr) {
+      console.error('Google Auth Error:', authErr);
+      return res.status(500).json({ error: 'Failed to authenticate with Google', details: authErr.message });
+    }
 
     const calendar = google.calendar({ version: 'v3', auth });
 
