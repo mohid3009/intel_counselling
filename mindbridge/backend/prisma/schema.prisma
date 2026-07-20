@@ -1,0 +1,184 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+// ─────────────────────────────────────────────────────────────
+// ENUMS
+// ─────────────────────────────────────────────────────────────
+
+enum Role {
+  SUPER_ADMIN
+  SCHOOL_ADMIN
+  PSYCHIATRIST
+  PARENT
+  STUDENT
+}
+
+enum ApptStatus {
+  PENDING
+  CONFIRMED
+  COMPLETED
+  CANCELLED
+}
+
+enum AlertStatus {
+  UNREAD
+  READ
+  ACTIONED
+}
+
+enum ConcernStatus {
+  RECEIVED
+  REVIEWED
+}
+
+// ─────────────────────────────────────────────────────────────
+// MODELS
+// ─────────────────────────────────────────────────────────────
+
+model School {
+  id           String   @id @default(uuid())
+  name         String
+  address      String?
+  contactEmail String
+  contactPhone String?
+  logoUrl      String?
+  accessCode   String   @unique
+  isActive     Boolean  @default(true)
+  createdAt    DateTime @default(now())
+
+  users         User[]
+  families      Family[]
+  psychiatrists User[]   @relation("PsychiatristSchools")
+}
+
+model Family {
+  id        String   @id @default(uuid())
+  schoolId  String
+  school    School   @relation(fields: [schoolId], references: [id])
+  createdAt DateTime @default(now())
+
+  students User[] @relation("FamilyStudents")
+  parents  User[] @relation("FamilyParents")
+}
+
+model User {
+  id                String   @id @default(uuid())
+  email             String   @unique
+  passwordHash      String
+  role              Role
+  firstName         String
+  lastName          String
+  phone             String?
+  avatarUrl         String?
+  schoolId          String?
+  school            School?  @relation(fields: [schoolId], references: [id])
+  familyAsStudent   Family?  @relation("FamilyStudents", fields: [familyStudentId], references: [id])
+  familyStudentId   String?
+  familyAsParent    Family?  @relation("FamilyParents", fields: [familyParentId], references: [id])
+  familyParentId    String?
+  grade             String?
+  dateOfBirth       DateTime?
+  isActive          Boolean  @default(true)
+  mustResetPassword Boolean  @default(true)
+  otpCode           String?
+  otpExpiresAt      DateTime?
+  createdAt         DateTime @default(now())
+
+  // Psychiatrist ↔ School many-to-many
+  assignedSchools School[] @relation("PsychiatristSchools")
+
+  testResults         TestResult[]
+  appointments        Appointment[] @relation("PatientAppointments")
+  managedAppointments Appointment[] @relation("PsychiatristAppointments")
+  alerts              Alert[]
+  concerns            Concern[]
+  refreshTokens       RefreshToken[]
+}
+
+model Test {
+  id          String   @id @default(uuid())
+  name        String
+  description String
+  category    String
+  questions   Json
+  thresholds  Json
+  estimatedMinutes Int @default(5)
+  isActive    Boolean  @default(true)
+  createdAt   DateTime @default(now())
+
+  results TestResult[]
+}
+
+model TestResult {
+  id                  String   @id @default(uuid())
+  studentId           String
+  student             User     @relation(fields: [studentId], references: [id])
+  testId              String
+  test                Test     @relation(fields: [testId], references: [id])
+  score               Int
+  maxScore            Int
+  severity            String
+  answers             Json
+  isLow               Boolean  @default(false)
+  sharedWithTherapist Boolean  @default(false)
+  takenByName         String?
+  takenByUsername     String?
+  takenByPhone        String?
+  checklistChecked    Boolean  @default(false)
+  takenAt             DateTime @default(now())
+
+  appointments Appointment[]
+}
+
+model Appointment {
+  id             String     @id @default(uuid())
+  patientId      String
+  patient        User       @relation("PatientAppointments", fields: [patientId], references: [id])
+  psychiatristId String
+  psychiatrist   User       @relation("PsychiatristAppointments", fields: [psychiatristId], references: [id])
+  slot           DateTime
+  status         ApptStatus @default(PENDING)
+  notes          String?
+  meetingLink    String?
+  createdAt      DateTime   @default(now())
+
+  results TestResult[]
+}
+
+model Alert {
+  id        String      @id @default(uuid())
+  studentId String
+  student   User        @relation(fields: [studentId], references: [id])
+  resultId  String
+  severity  String
+  message   String
+  status    AlertStatus @default(UNREAD)
+  firedAt   DateTime    @default(now())
+}
+
+model Concern {
+  id        String        @id @default(uuid())
+  studentId String
+  student   User          @relation(fields: [studentId], references: [id])
+  message   String
+  status    ConcernStatus @default(RECEIVED)
+  createdAt DateTime      @default(now())
+}
+
+model RefreshToken {
+  id        String   @id @default(uuid())
+  userId    String
+  user      User     @relation(fields: [userId], references: [id])
+  token     String   @unique
+  expiresAt DateTime
+  createdAt DateTime @default(now())
+}
